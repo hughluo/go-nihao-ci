@@ -1,0 +1,14 @@
+steps:
+  # Build my-app image
+  - name: gcr.io/cloud_builders/docker
+    args:
+      - build
+      - -t
+      - gcr.io/$PROJECT_ID/go-nihao:$COMMIT_SHA
+      - .
+
+  # Push my-app image to Google Cloud Registry
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - gcr.io/$PROJECT_ID/go-nihao:$COMMIT_SHA
