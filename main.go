@@ -9,8 +9,9 @@ import (
 
 func main() {
 	localIP := getOutboundIP()
+	version := "1.0.0"
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Fprintf(w, "nihao from %s", localIP)
+		fmt.Fprintf(w, "nihao version %s from %s", version, localIP)
 	})
 
 	fs := http.FileServer(http.Dir("static/"))
