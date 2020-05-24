@@ -14,12 +14,11 @@ steps:
       - gcr.io/$PROJECT_ID/go-nihao:$COMMIT_SHA
  
   - name: 'gcr.io/cloud-builders/git'
-    id: Copy to production branch
+    id: Update CD
     entrypoint: /bin/sh
     args:
     - '-c'
     - |
-    set -x && \
     cd .. && \
     git clone https://github.com/hughluo/go-nihao-cd && \
     cd go-nihao-cd && \
