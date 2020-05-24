@@ -44,4 +44,4 @@ steps:
       cd $_CD_REPO && \
       git add test.log && \
       git commit -m "ci integration test $COMMIT_SHA" && \
-      git push master
+      git push
