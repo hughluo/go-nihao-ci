@@ -1,3 +1,6 @@
+substitutions:
+  _CD_REPO: github_hughluo_go-nihao-cd
+
 steps:
   - name: gcr.io/cloud_builders/docker
     id: Build
@@ -14,35 +17,31 @@ steps:
       - gcr.io/$PROJECT_ID/go-nihao:$COMMIT_SHA
  
   - name: 'gcr.io/cloud-builders/gcloud'
-    id: Clone env repository
+    id: Clone CD repo
     entrypoint: /bin/sh
     args:
     - '-c'
     - |
-    gcloud source repos clone go-nihao-cd && \
-    cd go-nihao-cd && \
-#     git checkout -b candidate && \
+    gcloud source repos clone $_CD_REPO && \
+    cd $_CD_REPO && \
     git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)')
 
-  # This step generates the new manifest
   - name: 'gcr.io/cloud-builders/gcloud'
-  id: Update manifest
-  entrypoint: /bin/sh
-  args:
-  - '-c'
-  - |
-    echo "CI from $COMMIT_SHA" >> test.log
+    id: Update manifest
+    entrypoint: /bin/sh
+    args:
+    - '-c'
+    - |
+    echo "CI from $COMMIT_SHA" >> $_CD_REPO/test.log
 
-# This step pushes the manifest back to hello-cloudbuild-env
-- name: 'gcr.io/cloud-builders/gcloud'
-  id: Push manifest
-  entrypoint: /bin/sh
-  args:
-  - '-c'
-  - |
+  - name: 'gcr.io/cloud-builders/gcloud'
+    id: Push manifest
+    entrypoint: /bin/sh
+    args:
+    - '-c'
+    - |
     set -x && \
-    cd go-nihao-cd && \
+    cd $_CD_REPO && \
     git add test.log && \
     git commit -m "ci integration test $COMMIT_SHA" && \
-#     git push origin candidate
     git push master
