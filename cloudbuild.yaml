@@ -19,6 +19,7 @@ steps:
     args:
     - '-c'
     - |
+    set -x && \
     cd .. && \
     git clone "https://github.com/hughluo/go-nihao-cd" && \
     cd go-nihao-cd && \
