@@ -12,3 +12,20 @@ steps:
     args:
       - push
       - gcr.io/$PROJECT_ID/go-nihao:$COMMIT_SHA
+ 
+  - name: 'gcr.io/cloud-builders/git'
+    id: Copy to production branch
+    entrypoint: /bin/sh
+    args:
+    - '-c'
+    - |
+    set -x && \
+    cd .. && \
+    git clone https://github.com/hughluo/go-nihao-cd && \
+    cd go-nihao-cd && \
+    echo "add $COMMIT_SHA" >> test.log && \
+    # Configure Git to create commits with Cloud Build's service account
+    git config user.email $(gcloud auth list --filter=status:ACTIVE --format='value(account)') && \
+    git add test.log && \
+    git commit -m "update from CI commit $COMMIT_SHA" && \
+    git push origin master
