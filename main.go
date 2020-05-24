@@ -13,8 +13,6 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "nihao version %s from %s", version, localIP)
 	})
-
-	fs := http.FileServer(http.Dir("static/"))
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -24,8 +22,6 @@ func getOutboundIP() net.IP {
 		log.Fatal(err)
 	}
 	defer conn.Close()
-
 	localAddr := conn.LocalAddr().(*net.UDPAddr)
-
 	return localAddr.IP
 }
