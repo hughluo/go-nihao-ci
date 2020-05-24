@@ -20,7 +20,7 @@ steps:
     - '-c'
     - |
     cd .. && \
-    git clone https://github.com/hughluo/go-nihao-cd && \
+    git clone "https://github.com/hughluo/go-nihao-cd" && \
     cd go-nihao-cd && \
     echo "add $COMMIT_SHA" >> test.log && \
     # Configure Git to create commits with Cloud Build's service account
