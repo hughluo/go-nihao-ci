@@ -9,7 +9,7 @@ import (
 
 func main() {
 	localIP := getOutboundIP()
-	version := "1.0.0"
+	version := "1.0.1"
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "nihao version %s from %s", version, localIP)
 	})
